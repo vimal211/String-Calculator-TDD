@@ -4,20 +4,28 @@ export class StringCalculator {
       return 0;
     }
 
-    let delimiter = ",";
-    let numbersToProcess = numbers;
-
-    // Check for custom delimiter
-    if (numbers.startsWith("//")) {
-      const delimiterEndIndex = numbers.indexOf("\n");
-      delimiter = numbers.substring(2, delimiterEndIndex);
-      numbersToProcess = numbers.substring(delimiterEndIndex + 1);
-    }
-
-    // Replace newlines with the delimiter
-    const normalizedNumbers = numbersToProcess.replace(/\n/g, delimiter);
+    const { delimiter, numbersString } = this.parseDelimiterAndNumbers(numbers);
+    const normalizedNumbers = numbersString.replace(/\n/g, delimiter);
     const parts = normalizedNumbers.split(delimiter);
 
     return parts.reduce((sum, part) => sum + parseInt(part), 0);
+  }
+
+  private parseDelimiterAndNumbers(numbers: string): {
+    delimiter: string;
+    numbersString: string;
+  } {
+    if (numbers.startsWith("//")) {
+      const delimiterEndIndex = numbers.indexOf("\n");
+      return {
+        delimiter: numbers.substring(2, delimiterEndIndex),
+        numbersString: numbers.substring(delimiterEndIndex + 1),
+      };
+    }
+
+    return {
+      delimiter: ",",
+      numbersString: numbers,
+    };
   }
 }
