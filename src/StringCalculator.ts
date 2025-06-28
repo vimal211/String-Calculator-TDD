@@ -7,8 +7,11 @@ export class StringCalculator {
     const { delimiter, numbersString } = this.parseDelimiterAndNumbers(numbers);
     const normalizedNumbers = numbersString.replace(/\n/g, delimiter);
     const parts = normalizedNumbers.split(delimiter);
+    const nums = parts.map((part) => parseInt(part));
 
-    return parts.reduce((sum, part) => sum + parseInt(part), 0);
+    this.checkForNegativeNumbers(nums);
+
+    return nums.reduce((sum, num) => sum + num, 0);
   }
 
   private parseDelimiterAndNumbers(numbers: string): {
@@ -27,5 +30,14 @@ export class StringCalculator {
       delimiter: ",",
       numbersString: numbers,
     };
+  }
+
+  private checkForNegativeNumbers(numbers: number[]): void {
+    const negativeNumbers = numbers.filter((num) => num < 0);
+    if (negativeNumbers.length > 0) {
+      throw new Error(
+        `negative numbers not allowed ${negativeNumbers.join(",")}`
+      );
+    }
   }
 }
