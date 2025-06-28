@@ -4,7 +4,8 @@ export class StringCalculator {
       return 0;
     }
 
-    const parts = numbers.split(",");
+    const normalizedNumbers = numbers.replace(/\n/g, ",");
+    const parts = normalizedNumbers.split(",");
     return parts.reduce((sum, part) => sum + parseInt(part), 0);
   }
 }
