@@ -25,4 +25,9 @@ describe("StringCalculator", () => {
     expect(calculator.add("1,2,3")).toBe(6);
     expect(calculator.add("1,2,3,4,5")).toBe(15);
   });
+
+  it("should handle newline delimiters", () => {
+    expect(calculator.add("1\n2,3")).toBe(6);
+    expect(calculator.add("1\n2\n3")).toBe(6);
+  });
 });
